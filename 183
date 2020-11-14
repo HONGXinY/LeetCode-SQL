@@ -1,0 +1,30 @@
+183
+错误解法1
+select DISTINCT name as Customers from Customers c, Orders
+where c.id NOT IN (Orders.customerId)
+（分析原因）
+错解2
+select DISTINCT name as Customers 
+from Customers, Orders
+where Customers.id NOT IN (select Orders.CustomerId from Orders)
+（分析原因）
+错解3
+select DISTINCT name as Customers 
+from Customers
+where Customers.id NOT IN (select Orders.CustomerId from Orders)
+（分析原因）
+正解
+select name as Customers 
+from Customers
+where Customers.id NOT IN (select Orders.CustomerId from Orders)
+
+原因1
+使用Orders.customerId就必须在from里加上这个表 但是“Customers from Customers c, Orders”会生成笛卡尔积，并且每一个c.id和Orders.customerId都要互相比较
+2
+select提供了一列Orders.CustomerId，此时每一个c.id和Orders.customerId不再互相比较，就比较一次
+但还是有笛卡尔积的问题
+3
+没有必要DISTINCT name，c.id和Orders.customerId只比较一次
+
+注意！！！
+为什么from两个表会有笛卡尔积的问题？？？？？？
