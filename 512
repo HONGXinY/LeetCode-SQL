@@ -1,0 +1,15 @@
+512
+错解
+select player_id, device_id from Activity
+where (event_date) in (select min(event_date) from Activity group by player_id)
+(分析)
+正解
+select player_id, device_id from Activity
+where (player_id, event_date) in (select player_id, min(event_date) from Activity group by player_id)
+
+
+原因
+event_date不是主键，筛选出来的where条件不正确
+
+！！！！！！！！！！！！！！！！！
+用where(caracter1, caracter2)可以组合筛选，联合查询
