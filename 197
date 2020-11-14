@@ -15,4 +15,8 @@ where w1.Temperature > w2.Temperature and dateDiff(w1.recordDate, w2.recordDate)
 原因1
 日期之间不能直接用减法得到前一天
 2
+速度慢一倍，可能因为select两次会影响性能
+
+！！！！！！！！！！！！！！！！！
+DateDiff函数
 
