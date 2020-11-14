@@ -1,0 +1,14 @@
+511
+不会解（除非用min函数）
+
+正解1
+select player_id, min(event_date) as first_login from Activity a1
+group by player_id
+
+2
+select distinct player_id,min(event_date) over(partition by player_id) as first_login
+from Activity
+窗口函数
+
+？？？？？？？？
+窗口函数是什么
