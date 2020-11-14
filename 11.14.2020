@@ -32,3 +32,59 @@ select提供了一列Orders.CustomerId，此时每一个c.id和Orders.customerId
 
 注意！！！
 为什么from两个表会有笛卡尔积的问题？？？？？？
+
+-----------------------------------------------
+197
+错解1 
+select w.id as Id from Weather w
+where Temperature > (select Temperature from Weather wea where wea.recordDate = w.recordDate - 1)
+（分析）
+2——待改进
+select w.id as Id from Weather w1
+where Temperature > (select Temperature from Weather w2 where dateDiff(w2.recordDate, w1.recordDate) = - 1)
+（分析）
+
+正解
+select w1.id as Id from Weather w1, Weather w2
+where w1.Temperature > w2.Temperature and dateDiff(w1.recordDate, w2.recordDate) = 1
+
+原因1
+日期之间不能直接用减法得到前一天
+2
+速度慢一倍，可能因为select两次会影响性能
+
+！！！！！！！！！！！！！！！！！
+DateDiff函数
+
+-----------------------------------------------------
+511
+不会解（除非用min函数）
+
+正解1
+select player_id, min(event_date) as first_login from Activity a1
+group by player_id
+
+2
+select distinct player_id,min(event_date) over(partition by player_id) as first_login
+from Activity
+窗口函数
+
+？？？？？？？？
+窗口函数是什么
+
+-----------------------------------------------------
+512
+错解
+select player_id, device_id from Activity
+where (event_date) in (select min(event_date) from Activity group by player_id)
+(分析)
+正解
+select player_id, device_id from Activity
+where (player_id, event_date) in (select player_id, min(event_date) from Activity group by player_id)
+
+
+原因
+event_date不是主键，筛选出来的where条件不正确
+
+！！！！！！！！！！！！！！！！！
+用where(caracter1, caracter2)可以组合筛选，联合查询
