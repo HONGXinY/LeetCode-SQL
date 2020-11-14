@@ -20,9 +20,12 @@ where Customers.id NOT IN (select Orders.CustomerId from Orders)
 
 原因1
 使用Orders.customerId就必须在from里加上这个表 但是“Customers from Customers c, Orders”会生成笛卡尔积，并且每一个c.id和Orders.customerId都要互相比较
+
 2
 select提供了一列Orders.CustomerId，此时每一个c.id和Orders.customerId不再互相比较，就比较一次
 但还是有笛卡尔积的问题
+？？？？？？？？？？？？为什么当Orders为空表时，不能输出Customers里的姓名
+
 3
 没有必要DISTINCT name，c.id和Orders.customerId只比较一次
 
