@@ -1,3 +1,4 @@
+------------------------------------
 183
 错误解法1
 select DISTINCT name as Customers from Customers c, Orders
